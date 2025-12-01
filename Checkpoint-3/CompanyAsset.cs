@@ -2,18 +2,26 @@
 
 namespace Checkpoint_3
 {
-    abstract class CompanyAsset(string ModelName, decimal Price, DateOnly PurchaseDate, string Currency)
+    abstract class CompanyAsset
     {
-        public string ModelName { get; set; } = ModelName;
-        public decimal Price { get; set; } = Price;
 
-        public string Currency { get; set; } = Currency;
-        public decimal PriceInUSD { get; set; } = 0;
-        public DateOnly PurchaseDate { get; set; } = PurchaseDate;
-
-        public decimal GetPriceInUSD(decimal ExchangeRate)
+        protected CompanyAsset(string ModelName, decimal PriceInUSD, DateOnly PurchaseDate, CompanyOffice Office)
         {
-            return Price * ExchangeRate;
+            this.ModelName = ModelName;
+            this.PriceInUSD = PriceInUSD;
+            this.PurchaseDate = PurchaseDate;
+            this.Office = Office;
+        }
+        public string ModelName { get; set; }
+        public decimal PriceInUSD { get; set; }
+
+        public CompanyOffice Office { get; set; }
+        public DateOnly PurchaseDate { get; set; }
+        public decimal PriceInLocalCurrency { get; } = 0;
+
+        public decimal GetPriceInLocalCurrency(decimal ExchangeRate)
+        {
+            return PriceInLocalCurrency * ExchangeRate;
         }
     }
 }
