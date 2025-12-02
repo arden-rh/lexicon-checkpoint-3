@@ -5,7 +5,7 @@ namespace Checkpoint_3
     abstract class CompanyAsset
     {
 
-        protected CompanyAsset(string ModelName, decimal PriceInUSD, DateOnly PurchaseDate, CompanyOffice Office)
+        protected CompanyAsset(string ModelName, decimal PriceInUSD, DateTime PurchaseDate, CompanyOffice Office)
         {
             this.ModelName = ModelName;
             this.PriceInUSD = PriceInUSD;
@@ -16,7 +16,7 @@ namespace Checkpoint_3
         public decimal PriceInUSD { get; set; }
 
         public CompanyOffice Office { get; set; }
-        public DateOnly PurchaseDate { get; set; }
+        public DateTime PurchaseDate { get; set; }
         public decimal PriceInLocalCurrency { get; } = 0;
 
         public decimal GetPriceInLocalCurrency(decimal ExchangeRate)
