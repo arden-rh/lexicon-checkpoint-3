@@ -2,15 +2,15 @@
 
 namespace Checkpoint_3
 {
-    abstract class CompanyAsset
+    public abstract class CompanyAsset
     {
 
-        protected CompanyAsset(string ModelName, decimal PriceInUSD, DateTime PurchaseDate, CompanyOffice Office)
+        protected CompanyAsset(string modelName, decimal priceInUSD, DateTime purchaseDate, CompanyOffice office)
         {
-            this.ModelName = ModelName;
-            this.PriceInUSD = PriceInUSD;
-            this.PurchaseDate = PurchaseDate;
-            this.Office = Office;
+            this.ModelName = modelName;
+            this.PriceInUSD = priceInUSD;
+            this.PurchaseDate = purchaseDate;
+            this.Office = office;
         }
         public string ModelName { get; set; }
         public decimal PriceInUSD { get; set; }

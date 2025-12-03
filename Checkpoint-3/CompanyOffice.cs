@@ -7,5 +7,6 @@ namespace Checkpoint_3
         public string Location { get; set; } = location;
         public string Currency { get; set; } = currency;
         public decimal ExchangeRate { get; } = exchangeRate;
+
     }
 }
