@@ -1,11 +1,12 @@
 ﻿
 namespace Checkpoint_3
 {
-    public class CompanyOffice(string location, string currency, decimal exchangeRate)
+    public class CompanyOffice(string officeId, string location, string currencyCode, decimal exchangeRate)
     {
 
+        public string OfficeId { get; set; } = officeId;
         public string Location { get; set; } = location;
-        public string Currency { get; set; } = currency;
+        public string CurrencyCode { get; set; } = currencyCode;
         public decimal ExchangeRate { get; } = exchangeRate;
 
     }

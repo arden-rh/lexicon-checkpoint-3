@@ -5,23 +5,22 @@ namespace Checkpoint_3
     public abstract class CompanyAsset
     {
 
-        protected CompanyAsset(string modelName, decimal priceInUSD, DateTime purchaseDate, CompanyOffice office)
+        protected CompanyAsset(string brandName, string modelName, DateTime purchaseDate, decimal priceInUSD, decimal priceInLocalCurrency, CompanyOffice office)
         {
+            this.BrandName = brandName;
             this.ModelName = modelName;
-            this.PriceInUSD = priceInUSD;
             this.PurchaseDate = purchaseDate;
+            this.PriceInUSD = priceInUSD;
+            this.PriceInLocalCurrency = priceInLocalCurrency;
             this.Office = office;
         }
-        public string ModelName { get; set; }
-        public decimal PriceInUSD { get; set; }
 
         public CompanyOffice Office { get; set; }
+        public string BrandName { get; set; }
+        public string ModelName { get; set; }
         public DateTime PurchaseDate { get; set; }
-        public decimal PriceInLocalCurrency { get; } = 0;
+        public decimal PriceInUSD { get; set; }
+        public decimal PriceInLocalCurrency { get; set; }
 
-        public decimal GetPriceInLocalCurrency(decimal ExchangeRate)
-        {
-            return PriceInLocalCurrency * ExchangeRate;
-        }
     }
 }
