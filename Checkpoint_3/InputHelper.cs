@@ -32,6 +32,39 @@ namespace Checkpoint_3
 
         }
 
+        public static DateTime GetValidatedDateTimeInput(string FieldName, out bool IsQuit)
+        {
+            IsQuit = false;
+            DateTime InputDate;
+            do
+            {
+                Console.Write($"Enter a {FieldName} (YYYY-MM-DD): ");
+                string Input = Console.ReadLine().Trim();
+
+                // Check for quit command
+                if (IsQuitCommand(Input))
+                {
+                    IsQuit = true;
+                    return default;
+                }
+                // Error handling for empty input
+                if (IsInputFieldEmpty(Input, FieldName))
+                {
+                    continue;
+                }
+                // Try to parse the date
+                if (!DateTime.TryParse(Input, out InputDate))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Invalid {FieldName}. Please enter a valid date in the format YYYY-MM-DD.");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    continue;
+                }
+                return InputDate;
+
+            } while (true);
+        }
+
         // Get validated string input method
         // This method prompts the user for input, validates it, and checks for quit command,
         // returning the input or indicating if the user chose to quit.
@@ -58,6 +91,40 @@ namespace Checkpoint_3
                     continue;
                 }
 
+                return Input;
+
+            } while (true);
+        }
+
+        public static string GetValidatedStringInput(string FieldName, List<string> ValidInputs, out bool IsQuit)
+        {
+            IsQuit = false;
+            string Input = string.Empty;
+
+            do
+            {
+                Console.Write($"Enter a {FieldName}: ");
+                Input = Console.ReadLine().Trim();
+
+                // Check for quit command
+                if (IsQuitCommand(Input))
+                {
+                    IsQuit = true;
+                    return null;
+                }
+                // Error handling for empty input
+                if (IsInputFieldEmpty(Input, FieldName))
+                {
+                    continue;
+                }
+                // Validate against the list of valid inputs
+                if (!ValidInputs.Contains(Input))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Invalid {FieldName}. Please enter one of the following: {string.Join(", ", ValidInputs)}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    continue;
+                }
                 return Input;
 
             } while (true);
