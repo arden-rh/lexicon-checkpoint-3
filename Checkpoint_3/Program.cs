@@ -11,9 +11,19 @@ string UserInput;
 // Initializing the client to get exchange rates
 ExchangeRateClient Client = new ExchangeRateClient();
 
+// Fetching exchange rates with USD as the base currency
 SpecificRates Rates = await Client.GetExchangeRatesWithBaseRateUSD();
 
-// Creating a list of Company Offices and populate it with the fetched exchange rates
+bool UsingDefaultRates = Rates == ExchangeRateClient.DefaultRates;
+
+// Check if the fetched exchange rates are valid
+if (UsingDefaultRates)
+{
+    Helper.PrintStatementInColor("Failed to fetch live exchange rates. Using default rates.", ConsoleColor.Red);
+}
+
+
+// Creating a list of Company Offices and populate it with exchange rates
 List<CompanyOffice> ListOfOffices = new List<CompanyOffice>()
 {
     new CompanyOffice("1", "New York", "USD", 1.0m),

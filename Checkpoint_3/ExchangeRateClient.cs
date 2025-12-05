@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace Checkpoint_3
 {
-    public record class PartialRateResponse(
+    public record PartialRateResponse(
         [property: JsonPropertyName("base_code")] string BaseCode,
         [property: JsonPropertyName("rates")] Dictionary<string, decimal> Rates
     );
@@ -22,44 +22,41 @@ namespace Checkpoint_3
     {
         private static readonly HttpClient client = new HttpClient();
 
+        // Default rates in case of API failure
+        public static readonly SpecificRates DefaultRates = new SpecificRates("USD", 0.75m, 9.41m);
+
         public async Task<SpecificRates> GetExchangeRatesWithBaseRateUSD()
         {
             try
             {
                 var response = await client.GetAsync("https://open.er-api.com/v6/latest/USD");
+
                 if (response.IsSuccessStatusCode)
                 {
-                    string jsonResponse = await response.Content.ReadAsStringAsync();
-                    PartialRateResponse Result = JsonSerializer.Deserialize<PartialRateResponse>(jsonResponse);
+                    string JsonResponse = await response.Content.ReadAsStringAsync();
+                    PartialRateResponse Result = JsonSerializer.Deserialize<PartialRateResponse>(JsonResponse);
 
-                    decimal GBPRate = 0.0m;
-                    decimal SEKRate = 0.0m;
+                    Result.Rates.TryGetValue("GBP", out decimal GBPRate);
+                    Result.Rates.TryGetValue("SEK", out decimal SEKRate);
 
-                    if (Result.Rates.TryGetValue("GBP", out decimal GBPExchangeRate))
-                    {
-
-                        GBPRate = GBPExchangeRate;
-                    }
-
-                    if (Result.Rates.TryGetValue("SEK", out decimal SEKExchangeRate))
-                    {
-
-                        SEKRate = SEKExchangeRate;
-                    }
-
+                    // Return the successfully fetched rates
                     return new SpecificRates(Result.BaseCode, GBPRate, SEKRate);
+
                 }
                 else
                 {
-                    Console.WriteLine("Failed to retrieve exchange rate data.");
+                    // Log the unsuccessful response HTTP status code
+                    Console.WriteLine($"API Request failed with status code: {response.StatusCode}.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                // Log any exceptions that occur during the API call
+                Console.WriteLine($"An error occurred while fetching rates: {ex.Message}");
             }
 
-            return new SpecificRates("ERROR", 0.0m, 0.0m);
+            // Return default rates in case of failure
+            return DefaultRates;
         }
 
     }

@@ -37,6 +37,7 @@ namespace Checkpoint_3
         {
             IsQuit = false;
             DateTime InputDate;
+
             do
             {
                 Console.Write($"Enter a {FieldName} (YYYY-MM-DD): ");
@@ -57,10 +58,19 @@ namespace Checkpoint_3
                 if (!DateTime.TryParse(Input, out InputDate))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"Invalid {FieldName}. Please enter a valid date in the format YYYY-MM-DD.");
+                    Console.WriteLine($"Invalid {FieldName}. Please enter a valid date.");
                     Console.ForegroundColor = ConsoleColor.White;
                     continue;
                 }
+                // Check if the date is in the future
+                if (InputDate > DateTime.Now)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"{FieldName} cannot be in the future. Please enter a valid date.");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    continue;
+                }
+
                 return InputDate;
 
             } while (true);
