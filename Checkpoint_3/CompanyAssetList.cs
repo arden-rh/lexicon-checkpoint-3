@@ -138,7 +138,7 @@ namespace Checkpoint_3
             if (Category == "Mobile" || Category == "2")
             {
                 NewAsset = new Mobile(
-                    BrandName = Helper.FormatStringInput(BrandName),
+                    BrandName,
                     ModelName = Helper.FormatStringInput(ModelName),
                     PurchaseDate,
                     PriceInUSD,
