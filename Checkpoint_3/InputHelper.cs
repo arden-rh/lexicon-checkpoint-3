@@ -32,6 +32,7 @@ namespace Checkpoint_3
 
         }
 
+        // Get validated DateTime input method
         public static DateTime GetValidatedDateTimeInput(string FieldName, out bool IsQuit)
         {
             IsQuit = false;
@@ -68,7 +69,7 @@ namespace Checkpoint_3
         // Get validated string input method
         // This method prompts the user for input, validates it, and checks for quit command,
         // returning the input or indicating if the user chose to quit.
-        public static string GetValidatedStringInput(string FieldName, out bool IsQuit)
+        public static string GetValidatedStringInputForField(string FieldName, out bool IsQuit)
         {
             IsQuit = false;
             string Input = string.Empty;
@@ -96,7 +97,8 @@ namespace Checkpoint_3
             } while (true);
         }
 
-        public static string GetValidatedStringInput(string FieldName, List<string> ValidInputs, out bool IsQuit)
+        // Get validated string input with specific valid inputs
+        public static string GetValidatedStringInputForField(string FieldName, List<string> ValidInputs, out bool IsQuit)
         {
             IsQuit = false;
             string Input = string.Empty;
@@ -117,11 +119,21 @@ namespace Checkpoint_3
                 {
                     continue;
                 }
+
+                foreach (string validInput in ValidInputs)
+                {
+                    if (Input.Equals(validInput, StringComparison.OrdinalIgnoreCase))
+                    {
+                        Input = validInput; // Normalize to the valid input casing
+                        return Input;
+                    }
+                }
+
                 // Validate against the list of valid inputs
                 if (!ValidInputs.Contains(Input))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"Invalid {FieldName}. Please enter one of the following: {string.Join(", ", ValidInputs)}");
+                    Console.WriteLine($"Invalid {FieldName}. Please enter one of the following: {string.Join(" | ", ValidInputs)}");
                     Console.ForegroundColor = ConsoleColor.White;
                     continue;
                 }
