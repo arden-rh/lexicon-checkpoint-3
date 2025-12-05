@@ -7,11 +7,14 @@ using System.Text.Json.Serialization;
 
 namespace Checkpoint_3
 {
+
+    // Record to hold partial rate response from the API
     public record PartialRateResponse(
         [property: JsonPropertyName("base_code")] string BaseCode,
         [property: JsonPropertyName("rates")] Dictionary<string, decimal> Rates
     );
 
+    // Record to hold specific exchange rates
     public record SpecificRates(
         string BaseCurrency,
         decimal GBPExchangeRate,

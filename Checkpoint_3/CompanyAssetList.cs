@@ -9,10 +9,10 @@ namespace Checkpoint_3
         public List<CompanyAsset> SortedAssets { get; private set; } = new List<CompanyAsset>();
 
         // I want to show additional text if the user is returning to the start of the loop,
-        // which is why I have a bool to check if it's the user's First time seeing the message
+        // which is why I have a bool to check if it's the user's first time seeing the message
         private bool _IsFirstTimeRunning = true;
 
-        // Method to add a product to the list
+        // Method to ask for user input
         public void AskForUserInput(List<CompanyOffice> Offices)
         {
 
@@ -47,9 +47,11 @@ namespace Checkpoint_3
             }
         }
 
+        // Method to add an asset to a company office
         public void AddCompanyAsset(CompanyOffice Office)
         {
 
+            // Initialize variable to hold the new asset
             CompanyAsset NewAsset;
 
             Console.WriteLine($"\nCompany Office {Office.Location}");
@@ -58,6 +60,7 @@ namespace Checkpoint_3
             Console.WriteLine("\nWhich kind of Company Asset would you like to add?");
             Console.WriteLine("1. Computer | 2. Mobile ");
 
+            /* Get asset details from user */
             // Get and validate category input, accepting both number and name
             string Category = InputHelper.GetValidatedStringInputForField("Category", new List<string> { "1", "Computer", "2", "Mobile" }, out bool isQuit);
             if (isQuit)
@@ -80,6 +83,7 @@ namespace Checkpoint_3
                 return;
             }
 
+            // Get and validate purchase date, checking both format and if it's a future date
             DateTime PurchaseDate = InputHelper.GetValidatedDateTimeInput("Purchase Date", out isQuit);
             if (isQuit)
             {
@@ -113,8 +117,10 @@ namespace Checkpoint_3
 
             } while (!isValidPrice);
 
+            // Check for quit command
             if (isQuit) return;
 
+            // Create the appropriate asset based on category
             if (Category == "Computer" || Category == "1")
             {
                 NewAsset = new Computer(
@@ -154,6 +160,7 @@ namespace Checkpoint_3
                 .ToList();
         }
 
+        // Method to display the list of assets
         public void DisplayListOfAssets()
         {
             // Sort assets before presenting the list
