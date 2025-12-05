@@ -23,6 +23,7 @@ namespace Checkpoint_3
                 Console.WriteLine($"-------------------------------------------------------------------------------{(!_IsFirstTimeRunning ? "---------------------------------" : "")}");
                 Console.WriteLine("Office 1: New York | Office 2: London | Office 3: Stockholm");
 
+                // Get and validate user input for office selection, accepting both number and name
                 string UserInput = InputHelper.GetValidatedStringInputForField("Company Office", new List<string> { "1", "New York", "2", "London", "3", "Stockholm" }, out bool isQuit);
 
                 if (isQuit)
@@ -30,13 +31,19 @@ namespace Checkpoint_3
                     break;
                 }
 
-                // Depending on the user's input they start adding a new CompanyAsset to one of the three offices
-                if (UserInput == "1" || UserInput == "New York") AddCompanyAsset(Offices[0]);
-                if (UserInput == "2" || UserInput == "London") AddCompanyAsset(Offices[1]);
-                if (UserInput == "3" || UserInput == "Stockholm") AddCompanyAsset(Offices[2]);
+                // Use LINQ to find the selected office based on user input
+                CompanyOffice SelectedOffice = Offices.FirstOrDefault(office =>
+                    office.OfficeId.Equals(UserInput, StringComparison.OrdinalIgnoreCase) ||
+                    office.Location.Equals(UserInput, StringComparison.OrdinalIgnoreCase)
+                );
 
-                _IsFirstTimeRunning = false;
+                // Depending on the user's input they start adding a new CompanyAsset to the selected office
+                if (SelectedOffice != null)
+                {
+                    AddCompanyAsset(SelectedOffice);
 
+                    _IsFirstTimeRunning = false;
+                }
             }
         }
 
@@ -51,6 +58,7 @@ namespace Checkpoint_3
             Console.WriteLine("\nWhich kind of Company Asset would you like to add?");
             Console.WriteLine("1. Computer | 2. Mobile ");
 
+            // Get and validate category input, accepting both number and name
             string Category = InputHelper.GetValidatedStringInputForField("Category", new List<string> { "1", "Computer", "2", "Mobile" }, out bool isQuit);
             if (isQuit)
             {
