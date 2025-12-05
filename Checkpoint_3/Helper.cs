@@ -1,13 +1,24 @@
-﻿/* Helper methods */
+﻿/* Helper */
+
+/* This static class provides helper methods for formatting and displaying information. */
+
 
 namespace Checkpoint_3
 {
-    internal class Helper
+    public static class Helper
     {
+        // Convert price from USD to local currency
         public static decimal GetPriceInLocalCurrency(decimal PriceInUSD, decimal ExchangeRate)
         {
-            decimal PriceInLocalCurrency = PriceInUSD * ExchangeRate;
-            return Math.Round(PriceInLocalCurrency, 2);
+            if (ExchangeRate == 1.0m)
+            {
+                return PriceInUSD;
+            }
+            else
+            {
+                decimal PriceInLocalCurrency = PriceInUSD * ExchangeRate;
+                return Math.Round(PriceInLocalCurrency, 2);
+            }
         }
 
         // Format string input
@@ -17,6 +28,7 @@ namespace Checkpoint_3
             return char.ToUpper(Input[0]) + Input.Substring(1);
         }
 
+        // Calculate end of life status
         public static string CalculateEndOfLife(DateTime AssetPurchaseDate)
         {
             DateTime EndOfLifeDate = AssetPurchaseDate.AddYears(3);
@@ -29,16 +41,31 @@ namespace Checkpoint_3
 
             if (IsLessThanThreeMonthsAway)
             {
-                return "Red";
+                return "ThreeMonths";
             }
             else if (IsLessThanSixMonthsAway)
             {
-                return "Yellow";
+                return "SixMonths";
             }
             else
             {
-                return "White";
+                return null;
             }
+        }
+
+        // Print statement in color
+        public static void PrintStatementInColor(string Statement, ConsoleColor Color, bool NewLine = true)
+        {
+            Console.ForegroundColor = Color;
+            if (NewLine)
+            {
+                Console.WriteLine(Statement);
+            }
+            else
+            {
+                Console.Write(Statement);
+            }
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 }
