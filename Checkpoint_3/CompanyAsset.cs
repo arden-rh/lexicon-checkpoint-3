@@ -1,4 +1,4 @@
-﻿
+﻿/* Company Asset: Abstract class representing a Company Asset */
 
 namespace Checkpoint_3
 {

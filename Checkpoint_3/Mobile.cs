@@ -1,4 +1,4 @@
-﻿
+﻿/* Mobile Asset */
 
 namespace Checkpoint_3
 {
